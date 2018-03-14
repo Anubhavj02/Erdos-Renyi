@@ -1,0 +1,56 @@
+---
+title: "Erdos_renyi"
+author: "Anubhav Jain"
+---
+
+## Getting started
+Loading the Igraph Library
+```{r}
+library(igraph)
+```
+## Choosing the initial attributes for the model
+Number of nodes in the graph
+```{r}
+nodes <- 10
+```
+Connectivity Probability
+```{r}
+prob <- 0.7
+```
+
+## Erdos Enyi Modelling
+Making an empty graph of n nodes
+```{r}
+g <- make_empty_graph(n=nodes)
+```
+
+function Generate graph edges with connectivity probability p
+* Take pair nodes from the graph
+* Generate a random probability r
+* If the generated random probability r <= connectivity p-> add an edge else ignor
+* Repeat the above steps for each pair of nodes
+```{r}
+random_edge_generator <- function(){
+  for (i in 1:(length(V(g))-1)){
+    c <- i+1
+    for (j in c:length(V(g))){
+      if(i!=j){
+        if(runif(1)<=p){
+          edges <- c(edges,V(g)[i])
+          edges <- c(edges,V(g)[j])
+        }
+      }
+    }
+  }
+  return(edges)
+}
+```
+Adding random edges to graph
+```{r}
+g<- add_edges(g, random_edge_generator())
+```
+## Ploting the graph
+```{r}
+plot.igraph(g)
+```
+
